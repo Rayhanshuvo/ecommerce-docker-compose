@@ -62,5 +62,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>ecommerce-crud</finalName>
     </build>
 </project>

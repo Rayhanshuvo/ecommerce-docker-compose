@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-crud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecommerce-crud
+  template:
+    metadata:
+      labels:
+        app: ecommerce-crud
+    spec:
+      containers:
+        - name: ecommerce-crud
+          image: docker.io/library/ecommerce-crud:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8083
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-db:3306/ecommerce?useSSL=false&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: app
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: app123
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecommerce-crud
+spec:
+  selector:
+    app: ecommerce-crud
+  type: NodePort
+  ports:
+    - port: 8083
+      targetPort: 8083
+      nodePort: 30083
